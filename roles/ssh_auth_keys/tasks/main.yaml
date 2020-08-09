@@ -1,0 +1,14 @@
+---
+###
+### NOT TESTED
+- name: Create user
+  user:
+    name: ansible
+    generate_ssh_key: yes
+  delegate_to: 127.0.0.1
+
+- name: Set authorized key in alternate location
+  authorized_key:
+    user: ansible
+    state: present
+    key: "{{ lookup('file', '/home/ansible/.ssh/id_rsa.pub') }}"
