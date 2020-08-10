@@ -1,0 +1,9 @@
+---
+### NOT YET
+- hosts: test
+  gather_facts: yes
+  become: yes
+  tasks:
+    - name: set fact
+      set_fact:
+        server_role: mysql
