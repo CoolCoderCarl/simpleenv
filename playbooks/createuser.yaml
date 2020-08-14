@@ -37,8 +37,8 @@
         groups: wheel
         shell: /bin/bash
         comment: "Ansible Management Account"
-        # password: "{{ ansible_user_pass }}"
-        password: "{{ ansible_user_pass | password_hash('sha512','A512') }}"
+        password: "{{ ansible_user_pass }}"
+        # password: "{{ ansible_user_pass | password_hash('sha512','A512') }}"
 
     - name: Copy ssh keys
       authorized_key:
