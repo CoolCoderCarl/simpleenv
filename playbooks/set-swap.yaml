@@ -1,0 +1,22 @@
+---
+###
+###
+- hosts: test
+  gather_facts: yes
+  become: yes
+  tasks:
+  - name: Show RAM
+    debug:
+      msg: RAM is {{ ansible_memtotal_mb }}
+
+  - name: Funny fail message
+    fail:
+      msg: U have such a little
+    when: "{{ ansible_memtotal_mb }} < 2048"
+
+  - name: Set swapinnes
+    sysctl:
+      name: vm.swappiness
+      value: '10'
+      state: present
+    when: "{{ ansible_memtotal_mb }} > 2048"

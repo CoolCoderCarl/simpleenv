@@ -1,0 +1,14 @@
+---
+- hosts: all
+  become: true
+  ignore_errors: yes
+  gather_facts: yes
+  tasks:
+    - name: Use template
+      template:
+        src: ./templates/hosts.j2
+        dest: /etc/hosts
+        mode: 0644
+
+    - debug: var=ansible_all_ipv4_addresses
+    - debug: var=ansible_default_ipv4.address

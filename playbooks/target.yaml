@@ -1,0 +1,7 @@
+---
+- hosts: test
+  gather_facts: yes
+  become: yes
+  tasks:
+    - name: default target
+      shell: 'systemctl set-default multi-user.target'

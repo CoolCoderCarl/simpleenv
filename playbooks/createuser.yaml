@@ -1,0 +1,53 @@
+---
+###
+### LOCAL TASKS
+###
+# - hosts: localhost
+#   become: true
+#   gather_facts: yes
+#   tasks:
+
+#     - name: Include vault file
+#       include_vars:
+#         file: ../vault.yaml
+    
+#     - name: Create local user
+#       user:
+#         name: ansible
+#         state: present
+#         shell: /bin/bash
+#         password: "{{ ansible_user_pass }}"
+
+###
+### REMOTE TASKS
+###
+- hosts: test
+  become: true
+  gather_facts: yes
+  tasks:
+
+    - name: Include vault file
+      include_vars:
+        file: ../vault.yaml
+    
+    - name: Create remote user
+      user:
+        name: ansible
+        state: present
+        groups: wheel
+        shell: /bin/bash
+        comment: "Ansible Management Account"
+        # password: "{{ ansible_user_pass }}"
+        password: "{{ ansible_user_pass | password_hash('sha512','A512') }}"
+
+    - name: Copy ssh keys
+      authorized_key:
+        user: ansible
+        state: present
+        key: "{{ lookup('file', '/home/ansible/.ssh/id_rsa.pub') }}"
+
+    - name: Make sudo rights
+      copy:
+        content: 'ansible ALL=(ALL) NOPASSWD: ALL'
+        dest: /etc/sudoers.d/ansible
+        mode: 0440
