@@ -8,3 +8,6 @@ ansible test -u root --ask-pass -m authorized_keys -a "user=ansible state=presen
 
 ### MAKE NEW USER POWERFULL
 ansible test -u root --ask-pass -m copy -a "content='ansible ALL=(ALL) NOPASSWD: ALL' dest=/etc/sudoers.d/ansible mode=0440"
+
+### CREATE A HASHED PASSWORD WITH SALT
+# ansible all -m debug -a "msg={{ 'password1' | password_hash('sha512','AZ') }}"
