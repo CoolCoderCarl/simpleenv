@@ -16,6 +16,7 @@
 #         name: ansible
 #         state: present
 #         shell: /bin/bash
+#         create_home: true
 #         password: "{{ ansible_user_pass }}"
 
 ###
