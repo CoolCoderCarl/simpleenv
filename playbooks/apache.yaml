@@ -1,0 +1,49 @@
+---
+- name: Deploy apache
+  hosts: test
+  gather_facts: yes
+  tasks:
+
+    - name: Install apache
+      package:
+        name:
+          - httpd
+          - httpd-manual
+          - firewalld
+        state: latest
+
+    - name: Secure listen
+      lineinfile:
+        path: /etc/httpd/conf/httpd.conf
+        regexp: '^Listen 80'
+        state: absent
+
+    - name: Listen single IPv4
+      lineinfile:
+        path: /etc/httpd/conf/httpd.conf
+        insertafter: '^#Listen'
+        line: 'Listen {{ ansible_default_ipv4.address }}:80'
+
+    - name: Default page
+      copy: 
+        dest: /var/www/html/index.html
+        content: |
+          Welcome page
+          EZ APACHE PAGE
+
+    - name: Start services
+      service: 
+        name: "{{ item }}"
+        state: started
+        enabled: true
+      loop:
+        - httpd
+        - firewalld
+
+    - name: Open ports
+      firewalld:
+        service: http
+        state: enabled
+        permanent: true
+        immediate: true
+... 
