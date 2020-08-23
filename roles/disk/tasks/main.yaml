@@ -1,6 +1,8 @@
 ---
 ###
 ###
+### CREATE A CHECKER FOR CASES WHEN DISK IS NOT EXIST OR HAVE ANOTHER SIZE
+### IF DISK HAVE ANOTHER SIZE, SHOW FAIL MSG, AND CREATE WITH ALTERNATE SIZE
 - name: Create a new primary partition with a size of 800MiB
   parted:
     device: /dev/sdb

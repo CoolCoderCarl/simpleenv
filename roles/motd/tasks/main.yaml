@@ -1,6 +1,7 @@
 ---
 ###
 ###
+### AS ALTERNATE CREATE/MODIFY THE `/etc/issue` FILE WITH CONTENT BASED ON ENV IN INV
 - name: Set motd
   template:
     src: motd.j2
